@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs '../../../build/libs'
+        }
+    }
+    dependencies {
+        classpath('com.mutualmobile.gradle.plugins.dexinfo:dexinfo:0.1')
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.mutualmobile.gradle.plugins.dexinfo'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.mutualmobile.gradle.plugins.dexinfo.helloworld"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        demo {
+            applicationId "com.mutualmobile.gradle.plugins.dexinfo.helloworld.demo"
+            versionName "1.0-demo"
+        }
+        full {
+            applicationId "com.mutualmobile.gradle.plugins.dexinfo.helloworld.full"
+            versionName "1.0-full"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}
+
+dexinfo {
+//    maxDepth 2
+    packageFilter "org.xmlpull"
+}

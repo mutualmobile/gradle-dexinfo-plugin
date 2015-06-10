@@ -1,0 +1,155 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    group = GROUP
+    version = VERSION_NAME
+
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+//apply plugin: 'signing'
+apply plugin: 'com.jfrog.bintray'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile gradleApi()
+    compile localGroovy()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+/*
+signing {
+    sign configurations.archives
+}
+*/
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Dexinfo Plugin'
+                // optionally artifactId can be defined here
+                description POM_DESCRIPTION
+                url POM_URL
+
+                scm {
+                    connection POM_SCM_CONNECTION
+                    developerConnection POM_SCM_DEV_CONNECTION
+                    url POM_SCM_URL
+                }
+
+                licenses {
+                    license {
+                        name POM_LICENCE_NAME
+                        url POM_LICENCE_URL
+                        distribution POM_LICENCE_DIST
+                    }
+                }
+
+                developers {
+                    developer {
+                        id POM_DEVELOPER_ID
+                        name POM_DEVELOPER_NAME
+                    }
+                }
+            }
+        }
+    }
+}
+
+task writeNewPom << {
+    pom {
+        project {
+            name 'Dexinfo Plugin'
+            // optionally artifactId can be defined here
+            description POM_DESCRIPTION
+            url POM_URL
+
+            scm {
+                connection POM_SCM_CONNECTION
+                developerConnection POM_SCM_DEV_CONNECTION
+                url POM_SCM_URL
+            }
+
+            licenses {
+                license {
+                    name POM_LICENCE_NAME
+                    url POM_LICENCE_URL
+                    distribution POM_LICENCE_DIST
+                }
+            }
+
+            developers {
+                developer {
+                    id POM_DEVELOPER_ID
+                    name POM_DEVELOPER_NAME
+                }
+            }
+        }
+    }.writeTo("$buildDir/poms/pom-default.xml")
+}
+
+bintray {
+    user = bintrayUsername
+    key = bintrayKey
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "dexinfo"
+        //userOrg = 'myorg' //An optional organization name when the repo belongs to one of the user's orgs
+        desc = POM_DESCRIPTION
+        websiteUrl = POM_URL
+        //issueTrackerUrl = 'https://github.com/bintray/gradle-bintray-plugin/issues'
+        vcsUrl = POM_SCM_URL
+        licenses = ["Apache-2.0"]
+        labels = ['android', 'translate', 'i18n', 'internationalization', 'translations']
+        // publicDownloadNumbers = true
+        // attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
+    }
+    publish = true
+}

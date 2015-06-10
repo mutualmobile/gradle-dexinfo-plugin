@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">hello World</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name2">Hello World</string>
+    <string name="new_line_test">Line 1\nLine 2\nLine 3</string>
+    <string name="param_test">Hello %1$s, nice to meet you my name is %2$s</string>
+    <string-array name="array_test">
+        <item>String arrays are tricky</item>
+        <item>So to keep it simple</item>
+        <item>just translate the entire array together</item>
+    </string-array>
+    <string name="html">Welcome to <b>Android</b>!</string>
+    <string name="cdata"><![CDATA[There we have some text]]></string>
+</resources>
