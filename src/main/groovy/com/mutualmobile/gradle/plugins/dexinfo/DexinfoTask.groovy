@@ -39,6 +39,7 @@ class DexinfoTask extends DefaultTask {
                 this.dirName, include: '**/*.dex').each { File file ->
             String fileName = file.path;
             println("Processing " + fileName)
+            DexMethodCounts.overallCount = 0;
             try {
                 List<RandomAccessFile> dexFiles = openInputFiles(fileName);
                 DexMethodCounts.Node packageTree = new DexMethodCounts.Node();
@@ -72,8 +73,17 @@ class DexinfoTask extends DefaultTask {
                 /* a message was already reported, just bail quietly */
                 throw new GradleScriptException(dde);
             }
+
+            println("")
+            if (DexMethodCounts.overallCount >= (1024 * 64)) {
+                println("*" * 80);
+                println("Overall method count: " + DexMethodCounts.overallCount);
+                println("*" * 80);
+            } else {
+                println("Overall method count: " + DexMethodCounts.overallCount);
+            }
+
         }
-        println("Overall method count: " + DexMethodCounts.overallCount);
     }
 
     /**
