@@ -47,7 +47,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
 }
 
-dexinfo {
+// dexinfo {
 //    maxDepth 2
-    packageFilter "org.xmlpull"
-}
+//    packageFilter "org.xmlpull"
+//}
