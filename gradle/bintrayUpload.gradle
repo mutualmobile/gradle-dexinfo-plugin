@@ -1,0 +1,139 @@
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+
+// load properties
+Properties properties = new Properties()
+File localPropertiesFile = project.file("local.properties");
+if(localPropertiesFile.exists()){
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+File projectPropertiesFile = project.file("project.properties");
+if(projectPropertiesFile.exists()){
+    properties.load(projectPropertiesFile.newDataInputStream())
+}
+
+// read properties
+def projectName = POM_NAME
+def projectDesc = POM_DESCRIPTION
+def projectGroupId = POM_GROUP
+def projectArtifactId = POM_ARTIFACT
+def projectVersionName = POM_VERSION_NAME
+def projectPackaging = 'aar'
+def projectSiteUrl = POM_URL
+def projectGitUrl = POM_SCM_URL
+def projectIssueUrl = POM_ISSUE_URL
+def projectLabels = POM_TAGS.tokenize(',')
+
+def developerId = POM_DEVELOPER_ID
+def developerName = POM_DEVELOPER_NAME
+def developerEmail = POM_DEVELOPER_EMAIL
+
+def bintrayUser = bintrayUsername
+def bintrayApikey = bintrayKey
+
+def javadocName = properties.getProperty("javadoc.name")
+
+group = projectGroupId
+
+// This generates POM.xml with proper parameters
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                name projectName
+                groupId projectGroupId
+                artifactId projectArtifactId
+                version projectVersionName
+                packaging projectPackaging
+                url projectSiteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection projectGitUrl
+                    developerConnection projectGitUrl
+                    url projectSiteUrl
+                }
+            }
+        }
+    }
+}
+
+// This generates sources.jar
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// This generates javadoc.jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// javadoc configuration
+javadoc {
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version projectVersionName
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title javadocName
+    }
+}
+
+// bintray configuration
+bintray {
+    user = bintrayUser
+    key = bintrayApikey
+    configurations = ['archives']
+    pkg {
+        repo = 'Android'
+        userOrg = 'mutualmobile'
+        name = projectName
+        desc = projectDesc
+        websiteUrl = projectSiteUrl
+        vcsUrl = projectGitUrl
+        issueTrackerUrl = projectIssueUrl
+        licenses = ["Apache-2.0"]
+        labels = projectLabels
+        publish = true
+        version {
+            name = project.version //Bintray logical version name
+//            desc = 'optional, version-specific description'
+//          released  = 'optional, date of the version release' //2 possible values: date in the format of 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ' OR a java.util.Date instance
+//          vcsTag = '1.3.0'
+//          attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin'] //Optional version-level attributes
+//          gpg {
+//              sign = true //Determines whether to GPG sign the files. The default is false
+//              passphrase = 'passphrase' //Optional. The passphrase for GPG signing'
+//          }
+            mavenCentralSync {
+                sync = false // Optional (true by default).
+                            // Determines whether to sync the version to Maven Central.
+                user = ossrhUsername //OSS user token
+                password = ossrhPassword //OSS user password
+                close = '1' // Optional property. By default the staging
+                            // repository is closed and artifacts are released to
+                            // Maven Central. You can optionally turn this behaviour off
+                            // (by puting 0 as value) and release the version manually.
+            }
+        }
+    }
+}

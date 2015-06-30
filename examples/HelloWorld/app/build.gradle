@@ -1,15 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-        flatDir {
-            dirs '../../../build/libs'
-        }
-    }
-    dependencies {
-        classpath('com.mutualmobile.gradle.plugins.dexinfo:dexinfo:0.1')
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.mutualmobile.gradle.plugins.dexinfo'
 
