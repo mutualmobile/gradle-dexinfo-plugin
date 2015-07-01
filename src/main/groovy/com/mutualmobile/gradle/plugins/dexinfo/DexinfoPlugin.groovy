@@ -21,18 +21,8 @@ class DexinfoPlugin implements Plugin<Project> {
             project.android.getApplicationVariants().each { variant ->
                 String varname = "dexinfo" + toCamelCase("${variant.name}")
                 project.task(varname, type: DexinfoTask, group: GROUP_NAME) { task ->
-
-//                    println(">>>>>>>>>>>>>")
-//                    for(varout in variant.outputs) {
-//                        println("outputFile => " + varout.outputFile)
-//                        println("dirName => " + varout.dirName)
-//                        println("outputs => " + varout.outputs)
-//                    }
-//                    println("<<<<<<<<<<<<<")
-
                     task.variantName = variant.name
                     task.dirName = variant.dirName
-
                 }
             }
         }
