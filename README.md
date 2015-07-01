@@ -1,22 +1,11 @@
-# Android Dexinfo Plugin
+# Android dexinfo plugin
 
-This plugin adds a new gradle task to print out the dex method count of your Android projects without having to install
+This Gradle plugin adds a new task to print out the dex method count of your Android projects without having to install
 separate tools.
-
-
-KNOWN ISSUES
-------------
-
-
-## Examples
-
-An example projects can be found in [/examples](examples).
 
 ## Usage
 
-Modify your **modules** build.gradle file, not the project's root build.gradle file.
-
-Add the androlate plug buildscript.dependencies section
+Modify your **module's** build.gradle file, not the project's root build.gradle file.
 
     buildscript {
         repositories {
@@ -32,7 +21,18 @@ Apply the plugin after the 'com.android.application' or 'com.android.library' pl
     apply plugin: 'com.android.application'
     apply plugin: 'com.mutualmobile.gradle.plugins.dexinfo'
 
-Optionally add the following section to your build.gradle file to specify options
+Build your apk
+
+    > ./gradlew -q assembleDebug
+
+Run the dexinfo task
+
+    > ./gradlew -q dexinfoDebug
+
+
+## Additional options
+
+Add the following section to your build.gradle file to specify options
 
     dexinfo {
         maxDepth 2
@@ -54,13 +54,3 @@ Where:
     filter (String: all|defined_only|referenced_only)
         Whether to count all methods (the default), just those defined in the input file, or just those that are
         referenced in it. Note that referenced methods count against the 64K method limit too.
-
-
-Build your apk
-
-    > ./gradlew -q assembleDebug
-
-Run the dexinfo task
-
-    > ./gradlew -q dexinfoDebug
-
