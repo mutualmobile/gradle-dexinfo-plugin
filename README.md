@@ -1,11 +1,12 @@
 # Android dexinfo plugin
 
-This Gradle plugin adds a new task to print out the dex method count of your Android projects without having to install
-separate tools.
+This Gradle plugin adds a new task to print out the dex method count of your Android projects without having to install separate tools.
+
+Based on [https://github.com/mihaip/dex-method-counts](https://github.com/mihaip/dex-method-counts)
 
 ## Usage
 
-Modify your **module's** build.gradle file, not the project's root build.gradle file.
+Modify the your build.gradle file to add a dependency to the plugin.
 
     buildscript {
         repositories {
