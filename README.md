@@ -1,4 +1,4 @@
-# Android dexinfo plugin
+# Android dexinfo plugin [ ![Download](https://api.bintray.com/packages/mutualmobile/Android/gradle-dexinfo-plugin/images/download.svg) ](https://bintray.com/mutualmobile/Android/gradle-dexinfo-plugin/_latestVersion)
 
 This Gradle plugin adds a new task to print out the dex method count of your Android projects without having to install separate tools.
 
@@ -13,7 +13,7 @@ Modify the your build.gradle file to add a dependency to the plugin.
             jcenter()
         }
         dependencies {
-            classpath('com.mutualmobile.gradle.plugins.dexinfo:dexinfo:0.1')
+            classpath 'com.mutualmobile.gradle.plugins.dexinfo:dexinfo:0.1'
         }
     }
 
