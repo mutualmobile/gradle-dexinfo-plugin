@@ -13,7 +13,7 @@ Modify the your build.gradle file to add a dependency to the plugin.
             jcenter()
         }
         dependencies {
-            classpath 'com.mutualmobile.gradle.plugins.dexinfo:dexinfo:0.1'
+            classpath 'com.mutualmobile.gradle.plugins:dexinfo:0.1.2'
         }
     }
 
