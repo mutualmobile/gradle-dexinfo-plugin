@@ -6,7 +6,7 @@ Based on [https://github.com/mihaip/dex-method-counts](https://github.com/mihaip
 
 ## Usage
 
-Modify the your build.gradle file to add a dependency to the plugin.
+Modify your build.gradle file to add a dependency to the plugin.
 
     buildscript {
         repositories {
