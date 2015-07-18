@@ -32,6 +32,36 @@ Run the dexinfo task
 
     > ./gradlew -q dexinfoDebug
 
+## Sample output
+
+    <root>: 182 
+    butterknife: 182 
+      ButterKnife: 48 
+         Action: 1 
+         Finder: 22 
+            1: 3 
+            2: 3 
+            3: 3 
+         Finder[]: 1 
+         Injector: 2 
+      ImmutableList: 4 
+      InjectView: 1 
+      InjectViews: 1 
+      OnCheckedChanged: 1 
+      OnClick: 1 
+      internal: 99 
+         Binding: 1 
+         ButterKnifeProcessor: 22 
+         CollectionBinding: 12 
+            Kind: 5 
+            Kind[]: 1 
+         DebouncingOnClickListener: 7 
+            1: 2 
+      ...
+    
+    Overall method count: 182 
+      
+    BUILD SUCCESSFUL
 
 ## Additional options
 
