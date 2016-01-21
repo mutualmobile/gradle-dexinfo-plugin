@@ -15,9 +15,8 @@ class DexinfoTask extends DefaultTask {
 
     /** Global instance of Dexinfo Extension */
     //DexinfoPluginExtension dexinfo
-    String variantName
 
-    String dirName
+    def variant
 
     DexinfoPluginExtension dexinfo
 
@@ -35,10 +34,11 @@ class DexinfoTask extends DefaultTask {
         boolean mJustClasses = false
 
         DexMethodCounts.Filter filter = DexMethodCounts.Filter.valueOf(this.dexinfo.filter)
-        project.fileTree(dir: "build/intermediates/dex/" +
-                this.dirName, include: '**/*.dex').each { File file ->
-            String fileName = file.path;
+
+        variant.outputs.each { output ->
+            String fileName = output.outputFile.path;
             println("Processing " + fileName)
+
             DexMethodCounts.overallCount = 0;
             try {
                 List<RandomAccessFile> dexFiles = openInputFiles(fileName);

@@ -15,7 +15,7 @@ Modify your build.gradle file to add a dependency to the plugin.
             jcenter()
         }
         dependencies {
-            classpath 'com.mutualmobile.gradle.plugins:dexinfo:0.1.2'
+            classpath 'com.mutualmobile.gradle.plugins:dexinfo:0.2.0'
         }
     }
 
@@ -87,3 +87,29 @@ Where:
     filter (String: all|defined_only|referenced_only)
         Whether to count all methods (the default), just those defined in the input file, or just those that are
         referenced in it. Note that referenced methods count against the 64K method limit too.
+
+## Debugging
+
+Build and install the plugin to your local maven repository
+
+    ./gradlew build install
+
+Add mavenLocal() to your Android projects build.gradle
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            jcenter()
+        }
+    }
+
+Export debug options to GRADLE_OPTS
+
+    export GRADLE_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+
+Run gradle in your Android project
+
+    ./gradlew dexinfoDebug
+    
+Create a "Remote" run configuration in IntelliJ and connect to the gradle process
+
